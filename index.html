@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Preços e Valores de Formatação e Consertos de PC</title>
+    <link rel="icon" href="imgs/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="imgs/favicon-192.png">
+    <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+    <meta name="description" content="Transparência total. Consulte valores de referência para serviços de formatação, limpeza física, reparos em placa e suporte técnico.">
+
+    <!-- Arquivos locais (mesma pasta do index.html) -->
+    <link rel="stylesheet" href="meu-estilo.css">
+    <link rel="stylesheet" href="bootstrap-icons.css">
+
+    <!-- Aplica o tema antes de desenhar a página (evita "piscar" claro->escuro) -->
+    <script>
+        (function () {
+            var tema = null;
+            try { tema = localStorage.getItem('tema_site'); } catch (e) {}
+            if (!tema) {
+                tema = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-bs-theme', tema);
+        })();
+    </script>
+
+    <!-- Google Analytics: troque G-XXXXXXXXXX pelo seu ID de métricas (ou apague este bloco) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <style>
+            /* Logo: Insô + barra (cursor piscando) + tec. Mude --h para aumentar/diminuir tudo */
+        .logo-marca { --h: 40px; display: inline-flex; align-items: flex-end; gap: calc(var(--h) * .06); line-height: 0; }
+        .logo-inso { height: var(--h); width: auto; }
+        .logo-tec { height: calc(var(--h) * .56); width: auto; margin-bottom: calc(var(--h) * .039); } /* mesmo tamanho de letra do Insô, na mesma linha de base */
+        .logo-barra { height: calc(var(--h) * 1.11); width: auto; margin: 0 0 calc(var(--h) * -.055) calc(var(--h) * .03);
+            animation: piscar 1.1s steps(1, end) infinite; }
+        [data-bs-theme="dark"] .logo-barra { filter: invert(1); }
+        @keyframes piscar { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+        body { user-select: none; -webkit-user-select: none; overscroll-behavior-y: none; }
+        html.travado, html.travado body { overflow: hidden; }
+        #viewTabela { will-change: transform; }
+        #viewContato { position: fixed; inset: 0; z-index: 1040; display: flex; flex-direction: column;
+            overflow-y: auto; overscroll-behavior-y: contain; background: var(--bs-body-bg); visibility: hidden; }
+        #viewContato.aberta { visibility: visible; }
+        #viewContatoInner { will-change: transform; }
+        #ondas { position: fixed; inset: 0; z-index: 1050; pointer-events: none; overflow: hidden; }
+        .onda { position: absolute; left: 50%; width: 240vmax; height: 240vmax; border-radius: 50%; opacity: 0;
+            border: 3px solid rgba(var(--bs-danger-rgb), .55);
+            box-shadow: 0 0 60px rgba(var(--bs-danger-rgb), .25), inset 0 0 60px rgba(var(--bs-danger-rgb), .15); }
+        #puxe { --p: 0; position: fixed; left: 50%; bottom: 22px; z-index: 1060; width: 54px; height: 54px; border-radius: 50%;
+            opacity: 0; pointer-events: none; transform: translateX(-50%);
+            background: conic-gradient(var(--bs-danger) calc(var(--p) * 360deg), rgba(var(--bs-danger-rgb), .18) 0); }
+        #puxe.topo { bottom: auto; top: 22px; }
+        #puxe::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--bs-body-bg); }
+        #puxe i { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; color: var(--bs-danger); font-size: 1.3rem; }
+        #puxe::before, .dica-btn::before { content: ""; position: absolute; inset: 0; border-radius: inherit;
+            border: 2px solid rgba(var(--bs-danger-rgb), .5); animation: pulso 1.8s ease-out infinite; }
+        .dica-btn { position: relative; }
+        @keyframes pulso { from { transform: scale(1); opacity: .6; } to { transform: scale(1.9); opacity: 0; } }
+        @media (prefers-reduced-motion: reduce) { #puxe::before, .dica-btn::before { animation: none; } }
+    </style>
+</head>
+<body>
+<div id="viewTabela">
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm py-3">
+    <div class="container">
+
+        <a class="navbar-brand logo-marca m-0" href="AlocarLink" aria-label="InsôTEC">
+            <img src="imgs/inso.png" alt="Insô" class="logo-inso">
+            <img src="imgs/tec.png" alt="tec" class="logo-tec">
+            <img src="imgs/barra.png" alt="" class="logo-barra">
+        </a>
+
+        <div class="d-flex align-items-center gap-3">
+            <button type="button" class="btn btn-light rounded-pill text-center" id="btnTrocarTema" data-tema
+                    aria-label="Alternar tema claro/escuro"
+                    style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-moon" data-tema-icone></i>
+            </button>
+
+            <!-- DE LADO (decidir depois): botão "Acompanhar OS"
+            <a href="ColocarLink" class="btn btn-fale-conosco px-4 py-2 fw-semibold rounded-3 shadow-sm">
+                Acompanhar OS
+            </a>
+            -->
+        </div>
+
+    </div>
+</nav>
+
+<div class="container mt-5 pt-5"></div>
+
+<section class="py-5">
+    <div class="container text-center">
+        <h1 class="">Preços e Serviços</h1>
+        <p class="lead mx-auto" style="max-width: 600px;">
+            Transparência desde o primeiro contato. Confira os valores da mão de obra para os serviços na tabela <strong>abaixo</strong>.
+        </p>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+
+
+        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-search"></i></span> Diagnóstico</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Diagnóstico Padrão</span>
+                        <small>Análise em laboratório ou remoto com retorno em até 24h.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">Grátis</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Diagnóstico Emergencial</span>
+                        <small>Máquina parada? Análise na hora com o cliente acompanhando no local.<br><em>(Valor abatido caso o serviço seja aprovado)</em></small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 150,00 </span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-stars"></i></span> Limpeza e Higienização</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Limpeza Desktop (Completa)</span>
+                        <small>Desmontagem, lavagem de coolers, cable management e troca de pasta térmica.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 150,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Limpeza Notebook (Completa)</span>
+                        <small>Desmontagem minuciosa, desobstrução de ar, banho químico (se necessário) e pasta térmica.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 180,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-windows"></i></span> Formatação e Sistema</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Formatação Básica (Essencial)</span>
+                        <small>Instalação do Windows, Drivers e Programas básicos + 1 antivírus gratuito. <strong>Sem backup de dados.</strong></small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 150,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Formatação com Backup Especial</span>
+                        <small>Salvamento seguro de fotos/documentos (até 500 GB) + Sistema novo + Restauração dos dados + Drivers e Programas básicos + 1 antivírus gratuito.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 170,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Formatação + Performance</span>
+                        <small>Sistema novo + Backup (até 500 GB) e restauração de arquivos + Otimização desempenho + Limpeza e Higienização</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 270,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Formatação Empresarial</span>
+                        <small>Padronização de máquinas, Instalação de softwares corporativos, Configuração de rede básica, Configuração de e-mails corporativos</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 170,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-headset"></i></span> Visita Técnica e Suporte</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Visita Técnica (Vale do Ribeira)</span>
+                        <small>Para cidades vizinhas da região. Inclui deslocamento + 1 hora técnica.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 195,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Suporte Remoto (Por Hora)</span>
+                        <small>Correção de erros, vírus e impressoras à distância via AnyDesk.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 120,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Visita Técnica (Sete Barras)</span>
+                        <small>Deslocamento até a residência/empresa + 1 hora técnica inclusa.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 150,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+
+
+        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-calendar-check"></i></span> Diárias de Serviço (8h de Atendimento)</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+
+            
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Diária de TI - Pequeno Porte</span>
+                        <small>Até 5 computadores. Ideal para pequenos escritórios ou consultórios.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 250,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Diária de TI - Médio Porte</span>
+                        <small>Até 10 computadores. Manutenção preventiva e corretiva em toda a rede.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 450,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Diária de TI - Alta Demanda</span>
+                        <small>Acima de 10 computadores ou projetos de infraestrutura complexos.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">Consultar</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-shield-lock-fill"></i></span> Segurança, Privacidade e LGPD</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+
+            
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Implementação de Política de Senhas</span>
+                        <small>Criação de regras de complexidade, troca obrigatória a cada 90 dias e configuração de MFA (Autenticação em 2 Fatores) para a equipe.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 450,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Gestão de Privacidade e Acessos</span>
+                        <small>Configuração de permissões de pastas (quem pode ver o quê) e bloqueio de pendrives para evitar vazamento de dados internos.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 750,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Auditoria de Desligamento Seguro</span>
+                        <small>Revisão de contas ativas e remoção imediata de acessos de ex-funcionários em e-mails corporativos e sistemas locais.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 450,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+    <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-exclamation-triangle-fill"></i></span> Emergências Cibernéticas e Laudos</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+
+            
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Resposta a Incidentes (Fui Hackeado!)</span>
+                        <small>Atendimento de urgência para contenção. Bloqueio de acessos indevidos, troca de senhas mestras e varredura profunda no sistema.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 350,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Análise de Phishing e Fraudes</span>
+                        <small>Investigação de e-mails suspeitos, identificação de links falsos e limpeza de caixas de entrada lotadas de spam malicioso.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 250,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Laudo Técnico de Invasão (Sinistro)</span>
+                        <small>Documentação formal e detalhada atestando a invasão ou vulnerabilidade. Exigido por bancos e seguradoras para reembolso de prejuízos.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 650,00</span>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Laudo Técnico de Hardware (Danos Elétricos)</span>
+                        <small>Documentação técnica formal exigida pela concessionária de energia ou seguradoras atestando que a queima da peça foi causada por pico de energia.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 250,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="mb-3 fw-bold"><span class="badge bg-warning-subtle text-warning fs-6 p-2 fw-bold me-2"><i class="bi bi-gift-fill text-warning"></i></span> Combos com Desconto Especial</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-warning" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item list-group-item-success bg-opacity-10">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Combo PC Novo de Novo</span>
+                        <small>Formatação c/ Backup + Limpeza Física Completa + Troca de Pasta Térmica.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <div class="text-center">
+                           <small class="d-block text-body-secondary text-decoration-line-through">R$ 320,00</small>
+                           <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 280,00</span>
+                       </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item list-group-item-success">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Combo SSD Express</span>
+                        <small>Instalação Física do seu novo SSD + Formatação Básica (Windows voando).</small><br> <em>(SSD não incluso no valor.)</em>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 170,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+    
+
+
+    </div>
+</section>
+
+<section class="py-5 text-center border-top">
+    <button type="button" class="btn btn-outline-danger rounded-pill px-4 dica-btn" data-ir="contato">
+        <i class="bi bi-chevron-double-down"></i> Solicitar orçamento
+    </button>
+    <p class="small text-body-secondary mt-3 mb-0">Continue rolando para ver contato e políticas de serviço</p>
+</section>
+</div>
+
+<div id="viewContato" role="region" aria-label="Orçamento, políticas e contato">
+    <div id="viewContatoInner" class="container py-3 d-flex flex-column flex-grow-1 gap-3">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" data-ir="tabela">
+                <i class="bi bi-chevron-double-up"></i> Tabela de preços
+            </button>
+            <button type="button" class="btn btn-light rounded-pill" data-tema aria-label="Alternar tema claro/escuro"
+                    style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-moon" data-tema-icone></i>
+            </button>
+        </div>
+
+        <div class="rounded-4 bg-danger text-light text-center p-4">
+            <p class="fs-3 fw-bold mb-1">Melhore a performance do seu computador</p>
+            <p class="mb-3">Entre em contato agora mesmo para solicitar um orçamento</p>
+            <a href="https://api.whatsapp.com/send?phone=5513998059374" class="btn btn-light px-5 fw-bold text-primary"><i class="bi bi-whatsapp"></i> &nbsp; Solicitar Orçamento</a>
+        </div>
+
+        <div class="p-3 p-md-4 rounded-4 border">
+            <div class="d-flex gap-3">
+                <i class="bi bi-info-circle-fill text-primary fs-4"></i>
+                <div>
+                    <h6 class="fw-bold mb-1">Políticas de Serviço:</h6>
+                    <ul class="small text-body-secondary mb-0">
+                        <li><strong>Deslocamentos fora de Sete Barras:</strong> Atendemos a região com taxa fixa (tabela acima). Para municípios mais distantes, cobramos uma taxa de deslocamento extra de R$ 2,00 por Km rodado (ida e volta) + o valor do serviço.</li>
+                        <li>Os valores apresentados referem-se <strong>exclusivamente à mão de obra</strong>. Peças e licenças de software não estão inclusas.</li>
+                        <li>O valor do Diagnóstico Emergencial é integralmente abatido do valor final caso o cliente aprove o orçamento do reparo.</li>
+                        <li>Equipamentos abandonados no laboratório por mais de 90 dias após notificação poderão ser descartados ou vendidos para custear o serviço.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="h-100 p-3 rounded-4 border text-center">
+                    <div class="bg-danger-subtle text-danger rounded-3 mx-auto mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-whatsapp"></i></div>
+                    <h5 class="fw-bold">Contato</h5>
+                    <p class="mb-1 text-body-secondary">(13) 99805-9374</p>
+                    <p class="mb-0 text-body-secondary">email@seudominio.com.br</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="h-100 p-3 rounded-4 border text-center">
+                    <div class="bg-danger-subtle text-danger rounded-3 mx-auto mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-geo-alt"></i></div>
+                    <h5 class="fw-bold">Endereço</h5>
+                    <p class="mb-1 text-body-secondary">Sete Barras - SP</p>
+                    <p class="mb-0 small text-body-secondary">Informações: atendimento na região do Vale do Ribeira, detalhes a combinar.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="h-100 p-3 rounded-4 border text-center">
+                    <div class="bg-danger-subtle text-danger rounded-3 mx-auto mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-clock"></i></div>
+                    <h5 class="fw-bold">Horário</h5>
+                    <p class="mb-1 text-body-secondary">Segunda a Sexta: 08:00 - 18:00</p>
+                    <p class="mb-1 text-body-secondary">Sábado: Somente Urgências</p>
+                    <p class="mb-0 text-danger fw-medium">Domingo: Fechado</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="border-top bg-body-tertiary" style="min-height: 44px;"></footer>
+</div>
+
+<div id="puxe" aria-hidden="true"><i class="bi bi-chevron-double-down"></i></div>
+<div id="ondas" aria-hidden="true"></div>
+
+<script src="bootstrap_bundle.js"></script>
+<script>
+    // ---- Tema (vale para os dois botões) ----
+    (function () {
+        var html = document.documentElement;
+        var icones = document.querySelectorAll('[data-tema-icone]');
+        function atualizarIcone(t) {
+            for (var i = 0; i < icones.length; i++) icones[i].className = 'bi ' + (t === 'dark' ? 'bi-brightness-high' : 'bi-moon');
+        }
+        atualizarIcone(html.getAttribute('data-bs-theme') || 'light');
+        document.querySelectorAll('[data-tema]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var novo = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-bs-theme', novo);
+                try { localStorage.setItem('tema_site', novo); } catch (e) {}
+                atualizarIcone(novo);
+            });
+        });
+    })();
+
+    // ---- Transição "puxar" entre a tabela e a seção de orçamento ----
+    (function () {
+        var html = document.documentElement;
+        var tab = document.getElementById('viewTabela');
+        var lay = document.getElementById('viewContato');
+        var inner = document.getElementById('viewContatoInner');
+        var puxe = document.getElementById('puxe');
+        var puxeIcone = puxe.querySelector('i');
+        var ondasBox = document.getElementById('ondas');
+        var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        var LIM_WHEEL = 240, LIM_TOUCH = 110, DUR = 1000, EASE = 'cubic-bezier(.65,0,.25,1)';
+        var estado = 'tabela', trava = false, prog = 0, acum = 0, tmr = null;
+        var naBordaAntes = false, bordaDesde = Date.now(), tBase = null;
+
+        function naBorda() {
+            if (estado === 'tabela') return window.scrollY + window.innerHeight >= html.scrollHeight - 2;
+            return lay.scrollTop <= 0;
+        }
+        function checaBorda() {
+            var n = naBorda();
+            if (n && !naBordaAntes) bordaDesde = Date.now();
+            naBordaAntes = n;
+        }
+        function alvo() { return estado === 'tabela' ? tab : inner; }
+
+        function mostrar(p, solto) {
+            prog = Math.max(0, Math.min(1, p));
+            puxe.classList.toggle('topo', estado === 'contato');
+            puxeIcone.className = 'bi ' + (estado === 'tabela' ? 'bi-chevron-double-down' : 'bi-chevron-double-up');
+            puxe.style.setProperty('--p', prog);
+            puxe.style.opacity = prog > 0.02 ? 1 : 0;
+            puxe.style.transform = 'translateX(-50%) scale(' + (0.6 + 0.4 * prog) + ')';
+            var el = alvo();
+            el.style.transition = solto ? 'transform .35s ease' : 'none';
+            el.style.transform = prog ? 'translateY(' + ((estado === 'tabela' ? -1 : 1) * prog * 40) + 'px)' : '';
+        }
+        function soltar() { acum = 0; tBase = null; mostrar(0, true); }
+
+        function ondas(origem) {
+            if (reduz) return;
+            for (var i = 0; i < 3; i++) {
+                var r = document.createElement('div');
+                r.className = 'onda';
+                r.style.top = origem === 'baixo' ? '100%' : '0';
+                ondasBox.appendChild(r);
+                r.animate(
+                    [{ transform: 'translate(-50%,-50%) scale(0)', opacity: .8 }, { transform: 'translate(-50%,-50%) scale(1)', opacity: 0 }],
+                    { duration: 1400, delay: i * 150, easing: 'cubic-bezier(.2,.6,.3,1)', fill: 'both' }
+                ).onfinish = (function (el) { return function () { el.remove(); }; })(r);
+            }
+        }
+
+        function ir(dest) {
+            if (trava || dest === estado) return;
+            trava = true; soltar(); lay.style.overflowY = 'hidden';
+            var entrando = dest === 'contato', anim, d = reduz ? 250 : DUR;
+            ondas(entrando ? 'baixo' : 'topo');
+            if (entrando) {
+                lay.scrollTop = 0;
+                lay.classList.add('aberta'); html.classList.add('travado');
+                lay.animate(reduz ? [{ opacity: 0 }, { opacity: 1 }]
+                    : [{ clipPath: 'circle(0% at 50% 100%)' }, { clipPath: 'circle(170% at 50% 100%)' }],
+                    { duration: d, easing: EASE });
+            } else {
+                anim = lay.animate(reduz ? [{ opacity: 1 }, { opacity: 0 }]
+                    : [{ clipPath: 'circle(170% at 50% 0%)' }, { clipPath: 'circle(0% at 50% 0%)' }],
+                    { duration: d, easing: EASE, fill: 'forwards' });
+                anim.onfinish = function () { lay.classList.remove('aberta'); html.classList.remove('travado'); anim.cancel(); };
+            }
+            estado = dest;
+            setTimeout(function () { lay.style.overflowY = ''; trava = false; naBordaAntes = false; checaBorda(); bordaDesde = Date.now(); }, d + 450);
+        }
+        function proximo() { return estado === 'tabela' ? 'contato' : 'tabela'; }
+
+        // Mouse / trackpad
+        window.addEventListener('wheel', function (e) {
+            if (trava) return;
+            checaBorda();
+            var dir = estado === 'tabela' ? e.deltaY > 0 : e.deltaY < 0;
+            if (!naBorda() || !dir) { if (prog) soltar(); acum = 0; return; }
+            if (Date.now() - bordaDesde < 200) return;
+            acum += Math.abs(e.deltaY);
+            mostrar(acum / LIM_WHEEL);
+            clearTimeout(tmr); tmr = setTimeout(soltar, 220);
+            if (acum >= LIM_WHEEL) ir(proximo());
+        }, { passive: true });
+
+        // Toque (estilo "puxar para atualizar": solte para confirmar)
+        window.addEventListener('touchstart', function () { tBase = null; }, { passive: true });
+        window.addEventListener('touchmove', function (e) {
+            if (trava) return;
+            var y = e.touches[0].clientY;
+            if (!naBorda()) { tBase = null; return; }
+            if (tBase === null) tBase = y;
+            var dy = tBase - y; // positivo = dedo subindo
+            var dir = estado === 'tabela' ? dy > 0 : dy < 0;
+            if (!dir) { if (prog) mostrar(0, true); return; }
+            if (e.cancelable) e.preventDefault();
+            mostrar(Math.abs(dy) / LIM_TOUCH);
+        }, { passive: false });
+        window.addEventListener('touchend', function () {
+            if (prog >= 1 && !trava) ir(proximo()); else if (prog) soltar();
+            tBase = null;
+        }, { passive: true });
+
+        window.addEventListener('scroll', checaBorda, { passive: true });
+        lay.addEventListener('scroll', checaBorda, { passive: true });
+        window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && estado === 'contato') ir('tabela'); });
+        document.querySelectorAll('[data-ir]').forEach(function (b) {
+            b.addEventListener('click', function () { ir(b.getAttribute('data-ir')); });
+        });
+        checaBorda();
+    })();
+
+    // ---- Status on-line/offline (só funciona se existirem #status-dot e #status-text no HTML) ----
+        function atualizarStatusAtendimento() {
+        const bolinha = document.getElementById('status-dot');
+        const texto = document.getElementById('status-text');
+
+        if (!bolinha || !texto) return;
+
+        // Pega a hora atual e força para o fuso de São Paulo
+        const agora = new Date();
+        const horaSP = new Date(agora.toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
+
+        const diaSemana = horaSP.getDay(); // 0 = Domingo, 1 = Segunda ... 6 = Sábado
+        const hora = horaSP.getHours();    // 0 a 23
+
+        let online = false;
+
+        // Regra: Segunda (1) a Sexta (5), das 08:00 até as 17:59 (hora < 18)
+        if (diaSemana >= 1 && diaSemana <= 5) {
+            if (hora >= 8 && hora < 18) {
+                online = true;
+            }
+        }
+
+        // Aplica as mudanças no visual
+        if (online) {
+            bolinha.classList.remove('bg-danger');
+            bolinha.classList.add('bg-success');
+            texto.innerHTML = 'Atendimento - On-line';
+        } else {
+            bolinha.classList.remove('bg-success');
+            bolinha.classList.add('bg-danger');
+            texto.innerHTML = 'Atendimento - Offline';
+        }
+    }
+
+    // Executa assim que a página carrega
+    document.addEventListener('DOMContentLoaded', () => {
+        atualizarStatusAtendimento();
+        
+        // Configura para checar novamente a cada 1 minuto (60000 ms)
+        // Assim, se der 18:00 com o cliente com o site aberto, muda sozinho na tela dele!
+        setInterval(atualizarStatusAtendimento, 60000);
+    });
+</script>
+</body>
+</html>
