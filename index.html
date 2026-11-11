@@ -36,14 +36,14 @@
     </script>
 
     <style>
-            /* Logo: Insô + barra (cursor piscando) + tec. Mude --h para aumentar/diminuir tudo */
-        .logo-marca { --h: 40px; display: inline-flex; align-items: flex-end; gap: calc(var(--h) * .06); line-height: 0; }
-        .logo-inso { height: var(--h); width: auto; }
-        .logo-tec { height: calc(var(--h) * .56); width: auto; margin-bottom: calc(var(--h) * .039); } /* mesmo tamanho de letra do Insô, na mesma linha de base */
-        .logo-barra { height: calc(var(--h) * 1.11); width: auto; margin: 0 0 calc(var(--h) * -.055) calc(var(--h) * .03);
-            animation: piscar 1.1s steps(1, end) infinite; }
-        [data-bs-theme="dark"] .logo-barra { filter: invert(1); }
-        @keyframes piscar { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+        /* Logo Ternário + "Ti" ao lado, no alto, como um ™. O Ti tem metade da altura da logo. Mude --h para aumentar/diminuir tudo */
+        .logo-marca { --h: 56px; display: inline-flex; align-items: flex-start; gap: calc(var(--h) * .04); line-height: 0; }
+        .logo-img { height: var(--h); width: auto; }
+        .logo-ti { height: calc(var(--h) * .5); width: auto; } /* metade da altura da logo */
+        .logo-dark { display: none; }
+        [data-bs-theme="dark"] .logo-light { display: none; }
+        [data-bs-theme="dark"] img.logo-dark { display: block; }
+        @media (max-width: 480px) { .logo-marca { --h: 40px; } } /* celular: logo menor para caber com o botão de tema */
         body { user-select: none; -webkit-user-select: none; overscroll-behavior-y: none; }
         html.travado, html.travado body { overflow: hidden; }
         #viewTabela { will-change: transform; }
@@ -73,10 +73,11 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm py-3">
     <div class="container">
 
-        <a class="navbar-brand logo-marca m-0" href="AlocarLink" aria-label="InsôTEC">
-            <img src="imgs/inso.png" alt="Insô" class="logo-inso">
-            <img src="imgs/tec.png" alt="tec" class="logo-tec">
-            <img src="imgs/barra.png" alt="" class="logo-barra">
+        <a class="navbar-brand logo-marca m-0" href="AlocarLink" aria-label="Ternário">
+            <img src="imgs/logo.png" alt="Ternário" class="logo-img logo-light">
+            <img src="imgs/logo-dark.png" alt="Ternário" class="logo-img logo-dark">
+            <img src="imgs/ti.png" alt="" class="logo-ti logo-light">
+            <img src="imgs/ti-dark.png" alt="" class="logo-ti logo-dark">
         </a>
 
         <div class="d-flex align-items-center gap-3">
@@ -569,7 +570,7 @@
                     <div class="bg-danger-subtle text-danger rounded-3 mx-auto mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-whatsapp"></i></div>
                     <h5 class="fw-bold">Contato</h5>
                     <p class="mb-1 text-body-secondary">(13) 99805-9374</p>
-                    <p class="mb-0 text-body-secondary">email@seudominio.com.br</p>
+                    <p class="mb-0 text-body-secondary">TernarioTi@gmail.com</p>
                 </div>
             </div>
             <div class="col-md-4">
