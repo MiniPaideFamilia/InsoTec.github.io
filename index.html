@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon-32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="imgs/favicon-192.png">
     <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
-    <meta name="description" content="Transparência total. Consulte valores de referência para serviços de formatação, limpeza física e suporte técnico.">
+    <meta name="description" content="Transparência total. Consulte valores de referência para serviços de formatação, limpeza física, reparos em placa e suporte técnico.">
 
     <!-- Arquivos locais (mesma pasta do index.html) -->
     <link rel="stylesheet" href="meu-estilo.css">
@@ -26,19 +26,24 @@
         })();
     </script>
 
-    <!-- Google Analytics removido (ID de exemplo). Para ativar, adicione o bloco gtag com o seu ID. -->
+    <!-- Google Analytics: troque G-XXXXXXXXXX pelo seu ID de métricas (ou apague este bloco) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 
     <style>
-        /* Logo Ternário + "Ti" ao lado, no alto, como um ™. O Ti tem metade da altura da logo. Mude --h para aumentar/diminuir tudo */
-        .logo-marca { --h: 56px; display: inline-flex; align-items: flex-start; gap: calc(var(--h) * .04); line-height: 0; }
+        /* Logo Ternário TI. Mude --h para aumentar/diminuir (a logo é larga: ~5,6x mais larga que alta) */
+        .logo-marca { --h: 44px; display: inline-block; line-height: 0; }
         .logo-img { height: var(--h); width: auto; }
-        .logo-ti { height: calc(var(--h) * .5); width: auto; } /* metade da altura da logo */
         .logo-dark { display: none; }
         [data-bs-theme="dark"] .logo-light { display: none; }
         [data-bs-theme="dark"] img.logo-dark { display: block; }
-        @media (max-width: 480px) { .logo-marca { --h: 40px; } } /* celular: logo menor para caber com o botão de tema */
+        @media (max-width: 480px) { .logo-marca { --h: 30px; } } /* celular: logo menor para caber com o botão de tema */
         body { user-select: none; -webkit-user-select: none; overscroll-behavior-y: none; }
-        .sel { user-select: text; -webkit-user-select: text; }
         html.travado, html.travado body { overflow: hidden; }
         #viewTabela { will-change: transform; }
         #viewContato { position: fixed; inset: 0; z-index: 1040; display: flex; flex-direction: column;
@@ -67,11 +72,9 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm py-3">
     <div class="container">
 
-        <a class="navbar-brand logo-marca m-0" href="./" aria-label="Ternário">
-            <img src="imgs/logo.png" alt="Ternário" class="logo-img logo-light">
-            <img src="imgs/logo-dark.png" alt="Ternário" class="logo-img logo-dark">
-            <img src="imgs/ti.png" alt="" class="logo-ti logo-light">
-            <img src="imgs/ti-dark.png" alt="" class="logo-ti logo-dark">
+        <a class="navbar-brand logo-marca m-0" href="AlocarLink" aria-label="Ternário TI">
+            <img src="imgs/logo.png" alt="Ternário TI" class="logo-img logo-light">
+            <img src="imgs/logo-dark.png" alt="Ternário TI" class="logo-img logo-dark">
         </a>
 
         <div class="d-flex align-items-center gap-3">
@@ -105,45 +108,6 @@
 <section class="pb-5">
     <div class="container">
 
-
-        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-info-circle"></i></span> Como funciona cada atendimento</div>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-3 mb-5">
-            <div class="col">
-                <div class="h-100 p-3 rounded-4 border">
-                    <div class="bg-danger-subtle text-danger rounded-3 mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-search"></i></div>
-                    <h6 class="fw-bold">Diagnóstico</h6>
-                    <p class="small text-body-secondary mb-0"><strong>Padrão:</strong> grátis, análise no laboratório ou remota com retorno em até 24h. <strong>Emergencial:</strong> análise na hora, com você acompanhando; o valor é abatido se o reparo for aprovado.</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="h-100 p-3 rounded-4 border">
-                    <div class="bg-danger-subtle text-danger rounded-3 mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-house-door"></i></div>
-                    <h6 class="fw-bold">Visita Técnica</h6>
-                    <p class="small text-body-secondary mb-0">Valor único. Atendimento na sua casa ou empresa, com 1 hora técnica inclusa. Horas extras são cobradas à parte, com valor fixo por hora.</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="h-100 p-3 rounded-4 border">
-                    <div class="bg-danger-subtle text-danger rounded-3 mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-display"></i></div>
-                    <h6 class="fw-bold">Suporte Remoto</h6>
-                    <p class="small text-body-secondary mb-0">Atendimento à distância via AnyDesk, com valor fixo por hora.</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="h-100 p-3 rounded-4 border">
-                    <div class="bg-danger-subtle text-danger rounded-3 mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-calendar-check"></i></div>
-                    <h6 class="fw-bold">Diária de TI</h6>
-                    <p class="small text-body-secondary mb-0">8 horas de atendimento no local, com valor fixo por diária, de acordo com a quantidade de computadores.</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="h-100 p-3 rounded-4 border">
-                    <div class="bg-danger-subtle text-danger rounded-3 mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-windows"></i></div>
-                    <h6 class="fw-bold">Formatações e Combos</h6>
-                    <p class="small text-body-secondary mb-0">Valor fechado por serviço. Nenhum inclui backup: salve seus arquivos antes de entregar o equipamento.</p>
-                </div>
-            </div>
-        </div>
 
         <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-search"></i></span> Diagnóstico</div>
         <ul class="list-group mb-4">
@@ -211,7 +175,7 @@
                 <div class="row">
                     <div class="col">
                         <span class="fw-bold d-block">Limpeza Notebook (Completa)</span>
-                        <small>Desmontagem minuciosa, desobstrução de ar e troca de pasta térmica.</small>
+                        <small>Desmontagem minuciosa, desobstrução de ar, banho químico (se necessário) e pasta térmica.</small>
                     </div>
                     <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
                        <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 180,00</span>
@@ -245,13 +209,23 @@
                 </div>
             </li>
 
-            
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Formatação com Backup Especial</span>
+                        <small>Salvamento seguro de fotos/documentos (até 500 GB) + Sistema novo + Restauração dos dados + Drivers e Programas básicos + 1 antivírus gratuito.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 170,00</span>
+                    </div>
+                </div>
+            </li>
 
             <li class="list-group-item">
                 <div class="row">
                     <div class="col">
                         <span class="fw-bold d-block">Formatação + Performance</span>
-                        <small>Sistema novo + Otimização de desempenho + Limpeza e Higienização Desktop. <strong>Sem backup de dados.</strong></small>
+                        <small>Sistema novo + Backup (até 500 GB) e restauração de arquivos + Otimização desempenho + Limpeza e Higienização</small>
                     </div>
                     <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
                        <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 270,00</span>
@@ -259,7 +233,17 @@
                 </div>
             </li>
 
-            
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Formatação Empresarial</span>
+                        <small>Padronização de máquinas, Instalação de softwares corporativos, Configuração de rede básica, Configuração de e-mails corporativos</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 170,00</span>
+                    </div>
+                </div>
+            </li>
         </ul>
 
 
@@ -276,32 +260,19 @@
                 </div>
             </li>
 
-            
-
             <li class="list-group-item">
                 <div class="row">
                     <div class="col">
-                        <span class="fw-bold d-block">Visita Técnica</span>
-                        <small>Atendimento na sua casa ou empresa, com 1 hora técnica inclusa.</small>
+                        <span class="fw-bold d-block">Visita Técnica (Vale do Ribeira)</span>
+                        <small>Para cidades vizinhas da região. Inclui deslocamento + 1 hora técnica.</small>
                     </div>
                     <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
-                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 150,00</span>
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 195,00</span>
                     </div>
                 </div>
             </li>
 
             <li class="list-group-item">
-                <div class="row">
-                    <div class="col">
-                        <span class="fw-bold d-block">Hora Técnica Adicional</span>
-                        <small>Hora extra de atendimento no local, após a 1ª hora inclusa na Visita Técnica.</small>
-                    </div>
-                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
-                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 120,00</span>
-                    </div>
-                </div>
-            </li>
-<li class="list-group-item">
                 <div class="row">
                     <div class="col">
                         <span class="fw-bold d-block">Suporte Remoto (Por Hora)</span>
@@ -314,7 +285,17 @@
                 </div>
             </li>
 
-            
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Visita Técnica (Sete Barras)</span>
+                        <small>Deslocamento até a residência/empresa + 1 hora técnica inclusa.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 150,00</span>
+                    </div>
+                </div>
+            </li>
         </ul>
 
 
@@ -342,7 +323,7 @@
                         <small>Até 5 computadores. Ideal para pequenos escritórios ou consultórios.</small>
                     </div>
                     <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
-                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 450,00</span>
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 250,00</span>
                     </div>
                 </div>
             </li>
@@ -354,7 +335,7 @@
                         <small>Até 10 computadores. Manutenção preventiva e corretiva em toda a rede.</small>
                     </div>
                     <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
-                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 650,00</span>
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 450,00</span>
                     </div>
                 </div>
             </li>
@@ -373,10 +354,123 @@
         </ul>
 
 
-        
+        <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-shield-lock-fill"></i></span> Segurança, Privacidade e LGPD</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+
+            
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Implementação de Política de Senhas</span>
+                        <small>Criação de regras de complexidade, troca obrigatória a cada 90 dias e configuração de MFA (Autenticação em 2 Fatores) para a equipe.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 450,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Gestão de Privacidade e Acessos</span>
+                        <small>Configuração de permissões de pastas (quem pode ver o quê) e bloqueio de pendrives para evitar vazamento de dados internos.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 750,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Auditoria de Desligamento Seguro</span>
+                        <small>Revisão de contas ativas e remoção imediata de acessos de ex-funcionários em e-mails corporativos e sistemas locais.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 450,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
 
 
-    
+    <div class="mb-3 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-exclamation-triangle-fill"></i></span> Emergências Cibernéticas e Laudos</div>
+        <ul class="list-group mb-4">
+            <li class="list-group-item list-group-item-secondary" aria-current="true">
+                <div class="row">
+                    <div class="col fw-bold">
+                        Serviço Técnico
+                    </div>
+                    <div class="col col-lg-2 fw-bold text-center">
+                        À Vista / PIX
+                    </div>
+                </div>
+            </li>
+
+            
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Resposta a Incidentes (Fui Hackeado!)</span>
+                        <small>Atendimento de urgência para contenção. Bloqueio de acessos indevidos, troca de senhas mestras e varredura profunda no sistema.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 350,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Análise de Phishing e Fraudes</span>
+                        <small>Investigação de e-mails suspeitos, identificação de links falsos e limpeza de caixas de entrada lotadas de spam malicioso.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 250,00</span>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Laudo Técnico de Invasão (Sinistro)</span>
+                        <small>Documentação formal e detalhada atestando a invasão ou vulnerabilidade. Exigido por bancos e seguradoras para reembolso de prejuízos.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 650,00</span>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span class="fw-bold d-block">Laudo Técnico de Hardware (Danos Elétricos)</span>
+                        <small>Documentação técnica formal exigida pela concessionária de energia ou seguradoras atestando que a queima da peça foi causada por pico de energia.</small>
+                    </div>
+                    <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 250,00</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
 
         <div class="mb-3 fw-bold"><span class="badge bg-warning-subtle text-warning fs-6 p-2 fw-bold me-2"><i class="bi bi-gift-fill text-warning"></i></span> Combos com Desconto Especial</div>
         <ul class="list-group mb-4">
@@ -394,7 +488,7 @@
                 <div class="row">
                     <div class="col">
                         <span class="fw-bold d-block">Combo PC Novo de Novo</span>
-                        <small>Formatação Básica + Limpeza Desktop Completa (com troca de pasta térmica). <strong>Sem backup de dados.</strong></small>
+                        <small>Formatação c/ Backup + Limpeza Física Completa + Troca de Pasta Térmica.</small>
                     </div>
                     <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
                        <div class="text-center">
@@ -412,7 +506,7 @@
                         <small>Instalação Física do seu novo SSD + Formatação Básica (Windows voando).</small><br> <em>(SSD não incluso no valor.)</em>
                     </div>
                     <div class="col col-lg-2 d-flex align-items-center text-center justify-content-center">
-                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 200,00</span>
+                       <span class="badge bg-success-subtle text-success fs-6 fw-bold px-3 py-2">R$ 170,00</span>
                     </div>
                 </div>
             </li>
@@ -422,58 +516,6 @@
     
 
 
-
-        <div class="mb-3 mt-5 fw-bold"><span class="badge bg-danger-subtle text-danger fs-6 p-2 fw-bold me-2"><i class="bi bi-question-circle"></i></span> Qual serviço eu preciso?</div>
-        <ul class="list-group mb-4">
-            <li class="list-group-item">
-                <div class="row align-items-center g-1">
-                    <div class="col-md-6 fw-bold">Computador lento ou travando</div>
-                    <div class="col-md-6 text-body-secondary"><i class="bi bi-arrow-right text-danger me-1"></i> Formatação Básica ou Formatação + Performance</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row align-items-center g-1">
-                    <div class="col-md-6 fw-bold">Esquenta muito, faz barulho ou desliga sozinho</div>
-                    <div class="col-md-6 text-body-secondary"><i class="bi bi-arrow-right text-danger me-1"></i> Limpeza Desktop ou Notebook (com troca de pasta térmica)</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row align-items-center g-1">
-                    <div class="col-md-6 fw-bold">Não liga ou está com tela preta</div>
-                    <div class="col-md-6 text-body-secondary"><i class="bi bi-arrow-right text-danger me-1"></i> Diagnóstico Padrão ou Emergencial</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row align-items-center g-1">
-                    <div class="col-md-6 fw-bold">Erro no sistema, vírus ou impressora que não imprime</div>
-                    <div class="col-md-6 text-body-secondary"><i class="bi bi-arrow-right text-danger me-1"></i> Suporte Remoto</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row align-items-center g-1">
-                    <div class="col-md-6 fw-bold">Comprei um SSD novo</div>
-                    <div class="col-md-6 text-body-secondary"><i class="bi bi-arrow-right text-danger me-1"></i> Combo SSD Express</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row align-items-center g-1">
-                    <div class="col-md-6 fw-bold">Quero deixar o computador como novo</div>
-                    <div class="col-md-6 text-body-secondary"><i class="bi bi-arrow-right text-danger me-1"></i> Combo PC Novo de Novo</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row align-items-center g-1">
-                    <div class="col-md-6 fw-bold">Vários computadores no escritório ou consultório</div>
-                    <div class="col-md-6 text-body-secondary"><i class="bi bi-arrow-right text-danger me-1"></i> Diária de TI</div>
-                </div>
-            </li>
-        </ul>
-
-        <div class="p-3 p-md-4 rounded-4 border text-center">
-            <h5 class="fw-bold mb-1">Não achou o que precisa?</h5>
-            <p class="text-body-secondary mb-3">Descreva o problema pelo WhatsApp e avaliamos se conseguimos ajudar, com orçamento sem compromisso.</p>
-            <a href="https://api.whatsapp.com/send?phone=5513998059374&text=Ol%C3%A1%21%20N%C3%A3o%20encontrei%20na%20tabela%20o%20servi%C3%A7o%20que%20preciso.%20Posso%20explicar%20o%20que%20est%C3%A1%20acontecendo%3F" class="btn btn-outline-danger rounded-pill px-4 fw-bold"><i class="bi bi-whatsapp"></i> &nbsp; Falar no WhatsApp</a>
-        </div>
     </div>
 </section>
 
@@ -510,11 +552,10 @@
                 <div>
                     <h6 class="fw-bold mb-1">Políticas de Serviço:</h6>
                     <ul class="small text-body-secondary mb-0">
-                        <li><strong>Atendimento fora de Sete Barras:</strong> é cobrada uma taxa fixa de R$ 2,00 por km rodado (ida e volta), somada ao valor do serviço.</li>
-                        <li>Os valores apresentados referem-se <strong>exclusivamente à mão de obra</strong>. Peças e licenças de software (como a do Windows) não estão inclusas. Instalamos apenas programas gratuitos ou licenciados.</li>
+                        <li><strong>Deslocamentos fora de Sete Barras:</strong> Atendemos a região com taxa fixa (tabela acima). Para municípios mais distantes, cobramos uma taxa de deslocamento extra de R$ 2,00 por Km rodado (ida e volta) + o valor do serviço.</li>
+                        <li>Os valores apresentados referem-se <strong>exclusivamente à mão de obra</strong>. Peças e licenças de software não estão inclusas.</li>
                         <li>O valor do Diagnóstico Emergencial é integralmente abatido do valor final caso o cliente aprove o orçamento do reparo.</li>
-                        <li>Nenhum serviço de formatação ou combo inclui backup de dados. O cliente é responsável por salvar seus arquivos antes de entregar o equipamento.</li>
-                        <li>Equipamentos abandonados no laboratório por mais de 90 dias após notificação por escrito (ex.: WhatsApp) poderão ser descartados ou vendidos para custear o serviço.</li>
+                        <li>Equipamentos abandonados no laboratório por mais de 90 dias após notificação poderão ser descartados ou vendidos para custear o serviço.</li>
                     </ul>
                 </div>
             </div>
@@ -525,7 +566,8 @@
                 <div class="h-100 p-3 rounded-4 border text-center">
                     <div class="bg-danger-subtle text-danger rounded-3 mx-auto mb-2 fs-5" style="width:42px;height:42px;display:grid;place-items:center;"><i class="bi bi-whatsapp"></i></div>
                     <h5 class="fw-bold">Contato</h5>
-                    <p class="mb-0 text-body-secondary sel">(13) 99805-9374</p>
+                    <p class="mb-1 text-body-secondary">(13) 99805-9374</p>
+                    <p class="mb-0 text-body-secondary">email@seudominio.com.br</p>
                 </div>
             </div>
             <div class="col-md-4">
